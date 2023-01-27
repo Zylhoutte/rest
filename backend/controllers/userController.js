@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
+const mongoose = require('mongoose')
+
 
 
 
@@ -85,13 +87,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const getMe = asyncHandler(async (req, res) => {
-    const {_id, name, email} = await User.findById(req.user.id)
-
-    res.status(200).json({
-        id: _id,
-        name: name,
-        email: email,
-    })
+   res.status(200).json(req.user)
 })
 
 // Generate token
@@ -101,6 +97,9 @@ const generateToken = (id) => {
         expiresIn: '30d',
     })
 }
+
+
+
 
 
 module.exports = {
